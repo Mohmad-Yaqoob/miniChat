@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini WhatsApp</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h3>All Chats</h3>
+    <form action="/chats/new" method="GET">
+        <button>New Chat</button>
+    </form>
+    <br>
+    <% for(let chat of chats) { %>
+        <div class="chat">
+            <p style="font-size: 13px;">From: <%= chat.from %></p>
+            <div class="msg">
+                <p><%= chat.msg %></p>
+                <form method="GET" action="/chats/<%= chat._id %>/edit">
+                    <button>Edit</button>
+                </form>
+                <br>
+                <form method="POST" action="/chats/<%= chat._id%>?_method=DELETE" onsubmit="return confirmDelete();">
+                    <button>Delete</button>
+                </form>
+            </div>
+            <p style="font-size: 13px;">Received by <%= chat.to %></p> <!-- Corrected spelling -->
+            <hr>
+            <p style="font-size: 13px;"><%= chat.created_at.toString().split(" ")[4] %></p>
+            <p style="font-size: 13px;"><%= chat.created_at.toString().split(" ").slice(0, 4).join(" ") %></p>
+        </div>
+        <br><br>
+    <% } %>
+</body>
+
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this chat?");
+    }
+</script>
+</html>
